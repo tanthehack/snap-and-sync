@@ -10,8 +10,6 @@ export const App = () => {
 
     const user = useSelector((state) => state.auth.value);
 
-    console.log("user from state", user);
-
     const dispatch = useDispatch();
 
     useEffect(() => {
