@@ -1,7 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../../firebaseConfig";
-import { setCredentials } from "../../auth/authSlice";
 import logoWhite from '../../assets/icons/logoWhite.svg';
 import landingImg from '../../assets/images/landingImg.png';
 import { Input } from "../../components/global/input";
@@ -43,13 +42,8 @@ export const Login = () => {
     const handleUserLogin = async () => {
         await signInWithEmailAndPassword(auth, enteredEmail.trim(''), enteredPassword.trim(''))
             .then((userCredential) => {
+                const user = userCredential.user;
                 toast.success('Login Successful')
-                console.log(userCredential)
-                const userData = userCredential.user;
-                setCredentials({
-                    user: enteredEmail,
-                    accessToken: userData?.accessToken,
-                });
                 navigate('/app', { replace: true })
             })
             .catch((error) => {

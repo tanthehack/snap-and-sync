@@ -32,7 +32,6 @@ export const PasswordRecovery = () => {
             .catch((error) => {
                 if (error.code === 'auth/user-not-found')
                     toast.error(error.code)
-                enteredEmail = ''
             });
     }
 

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { auth } from "../../firebaseConfig";
-import { setCredentials } from "../../auth/authSlice";
 import { Input } from "../../components/global/input";
 import * as Icon from 'react-icons/fi'
 import { Link } from "react-router-dom";
@@ -54,11 +53,7 @@ export const Register = () => {
         await createUserWithEmailAndPassword(auth, enteredEmail.trim(''), enteredPassword.trim(''))
             .then((userCredential) => {
                 toast.success('Account Created Successfully!')
-                const userData = userCredential.user;
-                setCredentials({
-                    user: enteredEmail,
-                    accessToken: userData?.accessToken,
-                });
+                const user = userCredential.user;
                 navigate('/app', { replace: true })
             })
             .catch((error) => {
