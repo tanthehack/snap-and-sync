@@ -1,3 +1,6 @@
+import bg from '../../assets/images/&.svg';
+import logo from '../../assets/icons/logo.svg';
+
 export const EmailVerification = () => {
     return (
         <section className="lg:h-[100dvh] overflow-hidden p-6 py-10"
