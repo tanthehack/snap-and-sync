@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import bg from '../../assets/images/&.svg';
 import logo from '../../assets/icons/logo.svg';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 export const Register = () => {
     let regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -52,8 +52,14 @@ export const Register = () => {
     const handleCreateNewAccount = async () => {
         await createUserWithEmailAndPassword(auth, enteredEmail.trim(''), enteredPassword.trim(''))
             .then((userCredential) => {
-                toast.success('Account Created Successfully!')
                 const user = userCredential.user;
+                sendEmailVerification(user)
+                    .then(() => {
+                        toast.success('Account created successfully! An email verificaiton link has been sent.')
+                    })
+                    .catch(() => {
+                        toast.error('Error sending email verification link.')
+                    })
                 navigate('/app', { replace: true })
             })
             .catch((error) => {

@@ -20,6 +20,7 @@ import { PasswordRecovery } from './routes/auth/forgotPassword.jsx'
 import { PasswordReset } from './routes/auth/passwordReset.jsx'
 import { AuthAction } from './components/global/authActions.jsx'
 import { AuthUserActions } from './routes/auth/authUserActions.jsx'
+import { EmailVerification } from './routes/auth/emailVerification.jsx'
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: 'password-reset',
         element: <PasswordReset />
+      },
+      {
+        path: 'confirm-email',
+        element: <EmailVerification />
       },
       {
         path: 'auth/action',
