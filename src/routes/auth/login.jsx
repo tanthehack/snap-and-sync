@@ -3,6 +3,7 @@ import { useState } from "react";
 import { auth } from "../../firebaseConfig";
 import logoWhite from '../../assets/icons/logoWhite.svg';
 import landingImg from '../../assets/images/landingImg.png';
+import logo from '../../assets/icons/logo.svg';
 import { Input } from "../../components/global/input";
 import * as Icon from 'react-icons/fi'
 import { Link } from "react-router-dom";
@@ -59,12 +60,13 @@ export const Login = () => {
         buttonDisabled = false
 
     return (
-        <section className="lg:h-[100dvh] overflow-hidden flex">
-            <aside className="bg-gray-900 w-[50%] h-full lg:py-24 lg:pl-24 overflow-hidden">
+        <section className="lg:h-[100dvh] lg:overflow-hidden flex flex-col lg:flex-row items-center justify-center p-6 py-11 lg:p-0">
+            <aside className="bg-gray-900 w-[50%] h-full hidden lg:block lg:py-24 lg:pl-24 overflow-hidden">
                 <img src={logoWhite} alt="logo" />
                 <img src={landingImg} alt='landing image of the application' className="ml-[100px]" />
             </aside>
-            <div className="bg-white w-[50%] text-4xl text-gray-900 flex flex-col items-center justify-center">
+            <div className="bg-white lg:w-[50%] h-full text-4xl text-gray-900 flex flex-col items-center justify-center">
+                <img src={logo} alt="logo" className="w-32 mb-12" />
                 <div className="space-y-[64px]">
                     <div className="space-y-3">
                         <h1 className="font-bold flex items-center gap-4">Hey, Welcome Back! <img src={wavingHand} alt="waving hand emoji" className="w-6 h-6" /></h1>
