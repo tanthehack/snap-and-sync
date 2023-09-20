@@ -1,36 +1,28 @@
-import { useState } from "react";
-import { auth } from "../../firebaseConfig";
-import { setCredentials } from "../../auth/authSlice";
-import { Input } from "../../components/global/input";
-import * as Icon from 'react-icons/fi'
-import { Link } from "react-router-dom";
-import { Button } from "../../components/global/button";
-import { useValidateForm } from "../../hooks/useValidateForm";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { confirmPasswordReset } from "firebase/auth";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import bg from '../../assets/images/&.svg';
+import { Input } from '../../components/global/input';
+import * as Icon from 'react-icons/fi'
+import { useValidateForm } from '../../hooks/useValidateForm';
+import { Button } from '../../components/global/button';
+import { auth } from '../../firebaseConfig';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/icons/logo.svg';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
-export const Register = () => {
-    let regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const isValidEmail = (value) => (value.trim() !== '' && value.trim() !== null && regEmail.test(value))
+export const PasswordReset = () => {
     const isValidPassword = (value) => (value.trim() !== '' && value.trim() !== null)
     const isValidMatch = (value) => (value.trim() !== '' && value.trim() !== null && value.trim() === enteredPassword.trim(''))
 
     const [showPass, setShowPass] = useState(false)
     const [showConfirmPass, setShowConfirmPass] = useState(false)
-    const navigate = useNavigate();
-    let disableButton = true
+    const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
 
-    const {
-        value: enteredEmail,
-        hasError: emailError,
-        isValid: emailIsValid,
-        valueChangeHandler: emailChangeHandler,
-        inputBlurHandler: emailBlurHandler,
-        reset: resetEmail
-    } = useValidateForm(isValidEmail)
+    let oobCode = searchParams?.get('oobCode')
+
+    let disableButton = true
 
     const {
         value: enteredPassword,
@@ -50,16 +42,17 @@ export const Register = () => {
         reset: resetConfirmPassword
     } = useValidateForm(isValidMatch)
 
-    const handleCreateNewAccount = async () => {
-        await createUserWithEmailAndPassword(auth, enteredEmail.trim(''), enteredPassword.trim(''))
-            .then((userCredential) => {
-                toast.success('Account Created Successfully!')
-                const userData = userCredential.user;
-                setCredentials({
-                    user: enteredEmail,
-                    accessToken: userData?.accessToken,
-                });
-                navigate('/app', { replace: true })
+    const handleConfirmPasswordReset = async (oobCode, newPassword) => {
+        if (!oobCode && !newPassword) return;
+
+        return await confirmPasswordReset(auth, oobCode, newPassword)
+    }
+
+    const handleSubmitPassword = async () => {
+        await handleConfirmPasswordReset(oobCode, enteredPassword)
+            .then(() => {
+                toast.success('Password reset successful!')
+                navigate('/login', { replace: true })
             })
             .catch((error) => {
                 toast.error(error.code)
@@ -74,9 +67,8 @@ export const Register = () => {
         setShowConfirmPass(prev => !prev)
     }
 
-    if (emailIsValid && passwordIsValid && confirmPasswordIsValid || enteredEmail !== '' && enteredPassword !== '' && enteredConfirmPassword !== '') {
+    if (enteredPassword !== '' && enteredConfirmPassword !== '' && passwordIsValid && confirmPasswordIsValid)
         disableButton = false
-    }
 
     return (
         <section className="lg:h-[100dvh] overflow-hidden p-6 py-10"
@@ -87,26 +79,11 @@ export const Register = () => {
                 backgroundRepeat: 'no-repeat'
             }}
         >
-            <div className="text-4xl h-full text-gray-900 flex flex-col items-center justify-center">
+            <div className="h-full text-gray-900 flex flex-col items-center justify-center">
                 <img src={logo} alt="logo" className="w-32 mb-12" />
-                <div className="space-y-[32px]">
-                    <div className="space-y-3">
-                        <h1 className="font-bold flex items-center gap-4">Create an account</h1>
-                        <p className="text-lg">Enter your details to create an account.</p>
-                    </div>
-
+                <div className='space-y-[32px]'>
+                    <h1 className="font-bold flex items-center gap-4 text-2xl">Enter your email to <br /> recover your password</h1>
                     <form className="space-y-8">
-                        <Input
-                            label="Email"
-                            type="text"
-                            icon={<Icon.FiMail />}
-                            placeholder="Enter your email"
-                            value={enteredEmail}
-                            onChange={emailChangeHandler}
-                            onBlur={emailBlurHandler}
-                            error={emailError}
-                            errorText={'Enter a valid email'}
-                        />
                         <Input
                             label="Password"
                             type={showPass ? "text" : "password"}
@@ -120,6 +97,7 @@ export const Register = () => {
                             error={passwordError}
                             errorText={'Enter a valid password'}
                         />
+
                         <Input
                             label="Confirm Password"
                             type={showConfirmPass ? "text" : "password"}
@@ -134,9 +112,9 @@ export const Register = () => {
                             errorText={'Passwords do not match'}
                         />
                     </form>
-                    <div className="space-y-3">
-                        <Button children="Register" variant="solid" onClick={handleCreateNewAccount} disabled={disableButton} />
-                        <p className="text-xs text-center">Already have an account? <Link to="/login" className="text-sky-400 hover:underline">Login here</Link></p>
+                    <div className="flex flex-col items-center gap-3">
+                        <Button children="Send Email" variant="solid" onClick={handleSubmitPassword} disabled={disableButton} />
+                        <Link to="/login" className="hover:underline text-xs">Go Back to login</Link>
                     </div>
                 </div>
             </div>

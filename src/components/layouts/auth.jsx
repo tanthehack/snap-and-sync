@@ -1,8 +1,9 @@
+import { Fragment } from "react"
+
 export const AuthLayout = ({ children }) => {
     return (
-        <>
-            <p>auth</p>
+        <div className="font-outfit">
             {children}
-        </>
+        </div>
     )
 }
