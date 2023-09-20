@@ -44,11 +44,11 @@ export const Login = () => {
         await signInWithEmailAndPassword(auth, enteredEmail.trim(''), enteredPassword.trim(''))
             .then((userCredential) => {
                 toast.success('Login Successful')
-                console.log(user)
+                console.log(userCredential)
                 const userData = userCredential.user;
                 setCredentials({
                     user: enteredEmail,
-                    accessToken: userData?.idToken,
+                    accessToken: userData?.accessToken,
                 });
                 navigate('/app', { replace: true })
             })
