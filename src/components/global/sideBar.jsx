@@ -22,7 +22,7 @@ export const SideBar = () => {
     const mobileNav = <nav className="h-[70px] border-t-[2px] border-slate-300 bg-white dark:bg-slate-900 dark:border-slate-500 flex items-center justify-between w-full sticky bottom-0 left-0">
         <SideBarItem icon={<Icon.HomeIcon />} url="/app" mobile={isMobile} />
         <SideBarItem icon={<Icon.RectangleGroupIcon />} url="/app/tags" mobile={isMobile} />
-        <SideBarItem icon={<Icon.HeartIcon />} url="/app/favorites" mobile={isMobile} />
+        <Button widthFit icon={<Icon.ArrowRightOnRectangleIcon className="text-gray-900 dark:text-white w-6 h-6 hover:text-sky-400" />} onClick={handleLogOut} />
     </nav>
 
     const desktopNav = <nav className="w-[84px] border-r-[2px] border-slate-300 dark:border-slate-500 pt-[100px] py-6 flex flex-col justify-between">
