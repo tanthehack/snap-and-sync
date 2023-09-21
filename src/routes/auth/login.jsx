@@ -22,6 +22,8 @@ export const Login = () => {
     const navigate = useNavigate();
     let buttonDisabled = true
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const {
         value: enteredEmail,
         hasError: emailError,
@@ -41,15 +43,19 @@ export const Login = () => {
     } = useValidateForm(isValidPassword)
 
     const handleUserLogin = async () => {
-        await signInWithEmailAndPassword(auth, enteredEmail.trim(''), enteredPassword.trim(''))
-            .then((userCredential) => {
-                const user = userCredential.user;
-                toast.success('Login Successful')
-                navigate('/app', { replace: true })
-            })
-            .catch((error) => {
-                toast.error(error.code)
-            });
+        try {
+            setIsLoading(true)
+            await signInWithEmailAndPassword(auth, enteredEmail.trim(''), enteredPassword.trim(''))
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    toast.success('Login Successful')
+                    navigate('/app', { replace: true })
+                })
+            setIsLoading(false)
+        }
+        catch (error) {
+            toast.error(error.code)
+        };
     }
 
     const handleShowPassword = () => {
@@ -105,7 +111,7 @@ export const Login = () => {
                     <Link to="/forgot-password" className="text-sm text-gray-400 hover:text-gray-500">Forgot Password?</Link>
 
                     <div className="space-y-3">
-                        <Button children="Login" variant="solid" onClick={handleUserLogin} disabled={buttonDisabled} />
+                        <Button children="Login" variant="solid" onClick={handleUserLogin} disabled={buttonDisabled} isLoading={isLoading} />
                         <p className="text-xs text-center">Don't have an account? <Link to="/register" className="text-sky-400 hover:underline">Register here</Link></p>
                     </div>
                 </div>
