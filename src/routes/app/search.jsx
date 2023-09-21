@@ -1,7 +1,9 @@
+import { PageTitle } from "../../components/global/pageTitle"
+
 export const SearchResults = () => {
     return (
-        <section>
-            <p>Search Results</p>
+        <section className="overflow-y-auto">
+            <PageTitle title="Search Results" number={10} />
         </section>
     )
 }

@@ -9,7 +9,6 @@ import { MainAppLayout } from './components/layouts/mainApp.jsx'
 import Protected from './utils/protected.jsx'
 import { Home } from './routes/app/home.jsx'
 import { Tags } from './routes/app/tags.jsx'
-import { Favorites } from './routes/app/favs.jsx'
 import { SearchResults } from './routes/app/search.jsx'
 import { Provider } from 'react-redux'
 import { Landing } from './routes/auth/landing.jsx'
@@ -74,10 +73,6 @@ const router = createBrowserRouter([
       {
         path: 'tags',
         element: <Tags />
-      },
-      {
-        path: 'favorites',
-        element: <Favorites />
       },
       {
         path: 'find/tag',
