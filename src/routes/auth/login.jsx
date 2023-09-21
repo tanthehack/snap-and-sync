@@ -12,6 +12,7 @@ import { useValidateForm } from "../../hooks/useValidateForm";
 import wavingHand from '../../assets/images/wavingHand.png'
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import bg from '../../assets/images/bg.png'
 
 export const Login = () => {
     let regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -67,7 +68,15 @@ export const Login = () => {
 
     return (
         <section className="lg:h-[100dvh] lg:overflow-hidden flex flex-col lg:flex-row items-center justify-center p-6 py-11 lg:p-0">
-            <aside className="bg-gray-900 w-[50%] h-full hidden lg:block lg:py-24 lg:pl-24 overflow-hidden">
+            <aside className=" w-[50%] h-full hidden lg:block lg:py-24 lg:pl-24 overflow-hidden"
+                style={{
+                    backgroundImage: `url(${bg})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundColor: 'rgb(17 24 39)',
+                }}
+            >
                 <img src={logoWhite} alt="logo" />
                 <img src={landingImg} alt='landing image of the application' className="ml-[100px]" />
             </aside>

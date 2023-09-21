@@ -40,7 +40,7 @@ export const Home = () => {
     }, []);
 
     return (
-        <section className="overflow-y-scroll overflow-x-hidden w-full p-6 space-y-6">
+        <section className="overflow-y-scroll overflow-x-hidden w-full p-6 space-y-6 relative">
             <PageTitle title="Photos" number={photos.length} />
 
             {loading ? <PhotoCardSkeleton num={photos.length} /> : <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
