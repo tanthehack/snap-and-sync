@@ -1,8 +1,8 @@
 import * as Icon from '@heroicons/react/24/solid'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDebounceValue } from '../../hooks/useDebounceValue'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { Link, useNavigate } from 'react-router-dom'
+import { TagsData } from '../../data/tags'
 
 export const SearchBar = ({ isMobile, showSearch }) => {
     // State for managing search bar visibility and query
@@ -29,17 +29,6 @@ export const SearchBar = ({ isMobile, showSearch }) => {
         setQuery(e.target.value)
     }
 
-    // Handle Enter key press for searching
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            setShowSearchResults(false)
-            navigate(`/find/${e.target.value}`)
-
-            //Clear search box and query after navigating to search results
-            setQuery('')
-        }
-    }
-
     // Handle search button click
     const handleSearchButton = () => {
         navigate(`/find/${query}`)
@@ -55,8 +44,10 @@ export const SearchBar = ({ isMobile, showSearch }) => {
 
     // Container for displaying search results
     const searchResultsContainer = (
-        <div className={`${showSearchResults ? "block" : "hidden"} h-fit w-full bg-slate-900 p-7 absolute top-[80px] lg:top-[40px] left-0 rounded-b-[6px] overflow-hidden space-y-4 border-b-[1px] border-slate-700`}>
-
+        <div className={`${showSearchResults ? "block" : "hidden"} h-fit w-full bg-white dark:bg-slate-900 p-7 absolute top-[80px] lg:top-[40px] left-0 rounded-b-[6px] overflow-hidden space-y-4 border-[2px] border-slate-300 dark:border-slate-500 z-[100]`}>
+            {TagsData.filter((tag) => tag.name.toLowerCase().includes(debouncedValue.toLowerCase())).map((tag) => (
+                <Link to={`/app/${tag.name}`} onClick={handleShowSearchContainer} className='flex p-4 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl'>#{tag.name}</Link>
+            ))}
         </div>
     )
 
@@ -88,7 +79,6 @@ export const SearchBar = ({ isMobile, showSearch }) => {
                 placeholder="Search through tags"
                 className="dark:placeholder-slate-500 placeholder-slate-300 outline-none text-base border-none p-[10px] w-full focus:outline-none"
                 onChange={handleSearch}
-                onKeyDown={handleKeyDown}
                 value={query}
             />
             {searchResultsContainer}

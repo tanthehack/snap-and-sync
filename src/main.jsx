@@ -75,7 +75,7 @@ const router = createBrowserRouter([
         element: <Tags />
       },
       {
-        path: 'find/tag',
+        path: ':query',
         element: <SearchResults />
       }
     ]

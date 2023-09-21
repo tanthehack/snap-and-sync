@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { PageTitle } from "../../components/global/pageTitle"
 import { PhotoData } from "../../data/photos"
-import * as Icon from '@heroicons/react/24/solid'
 import { TagsData } from "../../data/tags"
 import { PhotoCard } from "../../components/global/photoCard"
 import { DndContext, KeyboardSensor, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core"
