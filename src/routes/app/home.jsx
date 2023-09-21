@@ -3,7 +3,8 @@ import { PageTitle } from "../../components/global/pageTitle"
 import { PhotoCard } from "../../components/global/photoCard"
 import { PhotoData } from "../../data/photos"
 import { SortableContext, arrayMove, rectSortingStrategy } from "@dnd-kit/sortable"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { PhotoCardSkeleton } from "../../components/global/photoSkeleton"
 
 export const Home = () => {
     const [photos, setPhotos] = useState(PhotoData)
@@ -13,8 +14,6 @@ export const Home = () => {
     const keyboardSensor = useSensor(KeyboardSensor)
 
     const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor)
-
-    console.log(photos)
 
     const handleOnDragEnd = (event) => {
         const { active, over } = event;
@@ -30,17 +29,28 @@ export const Home = () => {
         setActiveId(null);
     }
 
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 5000);
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
         <section className="overflow-y-scroll overflow-x-hidden w-full p-6 space-y-6">
             <PageTitle title="Photos" number={photos.length} />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+            {loading ? <PhotoCardSkeleton num={photos.length} /> : <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 <DndContext collisionDetection={closestCenter} onDragEnd={handleOnDragEnd} sensors={sensors}>
                     <SortableContext items={photos} strategy={rectSortingStrategy}>
                         {photos.map((photo) =>
                             <PhotoCard
                                 id={photo.id}
                                 title={photo.title}
-                                ext={photo.extension}
+                                file={photo.file}
                                 tags={photo.tag}
                                 isVid={photo.vid}
                                 fav={photo.fav}
@@ -48,7 +58,7 @@ export const Home = () => {
                         )}
                     </SortableContext>
                 </DndContext>
-            </div>
+            </div>}
         </section>
     )
 }

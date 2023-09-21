@@ -4,7 +4,7 @@ import * as Icon from '@heroicons/react/24/solid'
 import { PhotoData } from "../../data/photos";
 import { useState } from "react";
 
-export const PhotoCard = ({ title, id, tags, fav, isVid, ext }) => {
+export const PhotoCard = ({ title, id, tags, fav, isVid, file }) => {
     const [photos, setPhotos] = useState(PhotoData)
     const [addFav, setAddFav] = useState(fav)
 
@@ -21,25 +21,18 @@ export const PhotoCard = ({ title, id, tags, fav, isVid, ext }) => {
         transform: CSS.Transform.toString(transform)
     }
 
-    const handleSaveFav = () => {
-        photos.map((photo) => {
-            setAddFav(prev => !prev)
-            photo.favorite = addFav
-        })
-    }
-
     return (
         <div className="flex flex-col overflow-hidden rounded-xl h-[350px] lg:w-[300px] w-full relative" key={id} ref={setNodeRef} {...attributes} {...listeners} style={style}>
             {isVid ?
                 <video
-                    src={`/src/assets/images/static/${id}.${ext}`}
+                    src={`${file}`}
                     loop
                     autoPlay
                     className="w-full h-full"
                 />
                 : <div
                     style={{
-                        backgroundImage: `url(/src/assets/images/static/${id}.${ext})`,
+                        backgroundImage: `url(${file})`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         backgroundRepeat: 'no-repeat',
