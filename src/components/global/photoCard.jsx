@@ -45,7 +45,7 @@ export const PhotoCard = ({ title, id, tags, fav, isVid, file }) => {
                 <p>{title}</p>
                 <span className="flex items-center gap-2">
                     {tags.map((tag) => (
-                        <a href="tags#tag" className="text-xs border-[1px] bg-[rgb(56,189,248,0.33)] border-sky-400 rounded-full py-1 px-2 hover:bg-[rgb(56,189,248,0.4)]"> #{tag} </a>
+                        <span className="text-xs border-[1px] bg-[rgb(56,189,248,0.33)] border-sky-400 rounded-full py-1 px-2"> #{tag} </span>
                     ))}
                 </span>
             </div>
